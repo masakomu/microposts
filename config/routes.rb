@@ -5,6 +5,9 @@ Rails.application.routes.draw do
   post 'login', to: 'sessions#create'
   delete 'logout', to: 'sessions#destroy'
 
+  post 'likes/:micropost_id/create', to: 'likes#create'
+
+
   get 'signup', to: 'users#new'
   resources :users, only: [:index, :show, :new, :create] do
     member do
@@ -16,6 +19,13 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :microposts, only: [:index, :show, :new, :create] do
+    member do
+      get :bookmarkings
+    end
+  end
+
   resources :microposts, only: [:create, :destroy]
   resources :relationships, only: [:create, :destroy]
+  resources :favorites, only: [:create, :destroy]
 end
